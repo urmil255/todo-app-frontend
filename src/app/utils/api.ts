@@ -15,12 +15,20 @@ export const createTask = async (task: { title: string; color: string }) => {
 };
 
 export const getTasks = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/tasks`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch tasks");
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/tasks`);
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      console.error('Error fetching tasks:', errorDetails);
+      throw new Error(errorDetails.message || "Failed to fetch tasks");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error in getTasks:', error);
+    throw error;
   }
-  return response.json();
 };
+
 
 export const getTaskById = async (id: number) => {
   const response = await fetch(`${API_BASE_URL}/api/tasks/${id}`);

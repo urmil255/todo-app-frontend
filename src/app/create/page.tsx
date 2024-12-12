@@ -23,9 +23,9 @@ export default function CreateTask() {
       router.push("/?success=Task Created");
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        alert(JSON.stringify(error.message));
       } else {
-        console.error("An unexpected error occurred:", error);
+        console.error("An unexpected error occurred:", JSON.stringify(error));
       }
     }
   };
